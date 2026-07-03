@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conozcámonos — TasteFlow</title>
+  <link rel="icon" href="assets/icons/favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components/forms.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 50%, #E0F2F1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .onboarding-card {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      padding: 3rem;
+      width: 100%;
+      max-width: 600px;
+      animation: scaleIn 0.4s ease forwards;
+    }
+
+    .onboarding-card .navbar-logo {
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .onboarding-card .navbar-logo:hover {
+      color: var(--text);
+    }
+
+    .onboarding-card h1 {
+      text-align: center;
+      font-size: 1.75rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .onboarding-card > p {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .q-progress {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .q-progress-bar {
+      height: 6px;
+      flex: 1;
+      border-radius: 3px;
+      background: var(--border-light);
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition);
+    }
+
+    .q-progress-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--primary);
+      border-radius: 3px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .q-progress-bar.active::after {
+      transform: scaleX(1);
+    }
+
+    .q-progress-bar.filled::after {
+      transform: scaleX(1);
+    }
+
+    .q-step {
+      display: none;
+    }
+
+    .q-step.active {
+      display: block;
+    }
+
+    .q-step h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .q-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .q-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--surface);
+    }
+
+    .q-option:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      transform: translateX(4px);
+    }
+
+    .q-option.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12);
+      transform: translateX(4px);
+    }
+
+    .q-option input[type="radio"],
+    .q-option input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .q-option label {
+      cursor: pointer;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .q-option small {
+      display: block;
+      font-weight: 400;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin-top: 0.15rem;
+    }
+
+    .q-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+
+    .q-actions .btn {
+      min-width: 140px;
+    }
+
+    .q-error {
+      color: var(--error);
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      animation: shakeX 0.4s ease;
+    }
+
+    @keyframes shakeX {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { opacity: 1; transform: scale(1.05); }
+      70% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .q-result {
+      text-align: center;
+    }
+
+    .q-result .emoji {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: bounceIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .q-result h1 {
+      -webkit-text-fill-color: initial;
+      background: none;
+    }
+
+    .q-result .btn {
+      animation: pulse 2s ease infinite;
+    }
+
+    @media (max-width: 480px) {
+      .onboarding-card {
+        padding: 1.5rem;
+      }
+      .q-actions {
+        flex-direction: column;
+      }
+      .q-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="onboarding-card" id="onboardingCard">
+    <a href="/" class="navbar-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#00897B"/>
+        <path d="M18 8C14 8 11 11 11 15C11 19 15 24 18 28C21 24 25 19 25 15C25 11 22 8 18 8Z" fill="#80CBC4"/>
+        <path d="M18 12C16 12 14.5 13.5 14.5 15.5C14.5 17 16 19.5 18 22C20 19.5 21.5 17 21.5 15.5C21.5 13.5 20 12 18 12Z" fill="#4DB6AC"/>
+      </svg>
+      TasteFlow
+    </a>
+    <h1>Conozcámonos</h1>
+    <p>Responde estas preguntas para que podamos recomendarte el plan ideal.</p>
+
+    <div id="onboardingContent"></div>
+  </div>
+
+  <script type="module">
+    import { get } from './js/services/api.js';
+    import { CONFIG } from './js/config.js';
+    import { isAuthenticated } from './js/services/authService.js';
+
+    if (!isAuthenticated()) {
+      window.location.href = '/login.html';
+    }
+
+    const STORAGE_KEY = 'tf_preferences';
+    const content = document.getElementById('onboardingContent');
+
+    const questions = [
+      {
+        title: '¿Cómo te describirías?',
+        subtitle: 'Selecciona tu tipo de alimentación',
+        name: 'diet',
+        type: 'radio',
+        options: [
+          { value: 'omnivore', label: 'Omnívoro', desc: 'Como de todo sin restricciones' },
+          { value: 'vegetarian', label: 'Vegetariano', desc: 'No como carne ni pescado' },
+          { value: 'vegan', label: 'Vegano', desc: 'No como ningún producto animal' },
+          { value: 'keto', label: 'Keto / Bajo en carbos', desc: 'Dieta alta en grasas y baja en carbohidratos' },
+          { value: 'pescatarian', label: 'Pescetariano', desc: 'No como carne, pero sí pescado' },
+        ],
+      },
+      {
+        title: '¿Tienes alguna alergia?',
+        subtitle: 'Puedes seleccionar varias opciones',
+        name: 'allergies',
+        type: 'checkbox',
+        options: [
+          { value: 'gluten', label: 'Gluten' },
+          { value: 'lactose', label: 'Lactosa' },
+          { value: 'nuts', label: 'Frutos secos' },
+          { value: 'eggs', label: 'Huevo' },
+          { value: 'soy', label: 'Soja' },
+          { value: 'none', label: 'Ninguna' },
+        ],
+      },
+      {
+        title: '¿Cuál es tu objetivo principal?',
+        subtitle: 'Esto nos ayuda a ajustar las porciones y nutrientes',
+        name: 'goal',
+        type: 'radio',
+        options: [
+          { value: 'lose', label: 'Perder peso', desc: 'Reducir calorías y grasas' },
+          { value: 'maintain', label: 'Mantener peso', desc: 'Comer balanceado' },
+          { value: 'gain', label: 'Ganar músculo', desc: 'Aumentar proteínas y calorías' },
+          { value: 'energy', label: 'Más energía', desc: 'Comidas ligeras y nutritivas' },
+        ],
+      },
+      {
+        title: '¿Cuántas comidas al día prefieres?',
+        subtitle: 'Incluyendo comidas principales y snacks',
+        name: 'meals',
+        type: 'radio',
+        options: [
+          { value: '3', label: '3 comidas', desc: 'Desayuno, almuerzo y cena' },
+          { value: '4', label: '4 comidas', desc: '3 comidas + 1 snack' },
+          { value: '5', label: '5 comidas', desc: '3 comidas + 2 snacks' },
+        ],
+      },
+      {
+        title: '¿Cuánto tiempo quieres dedicar a cocinar?',
+        subtitle: 'Recetas ajustadas a tu disponibilidad',
+        name: 'cookTime',
+        type: 'radio',
+        options: [
+          { value: 'quick', label: 'Rápido y fácil', desc: 'Menos de 20 minutos' },
+          { value: 'moderate', label: 'Moderado', desc: 'Entre 20 y 40 minutos' },
+          { value: 'elaborate', label: 'Elaborado', desc: 'Más de 40 minutos' },
+        ],
+      },
+    ];
+
+    let currentStep = 0;
+    const answers = loadPrefs() || {};
+
+    function loadPrefs() {
+      try { const d = localStorage.getItem(STORAGE_KEY); return d ? JSON.parse(d) : null; }
+      catch { return null; }
+    }
+
+    function savePrefs() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+    }
+
+    function buildProgress() {
+      const el = document.getElementById('qProgress') || content;
+      let html = '<div class="q-progress" id="qProgress">';
+      questions.forEach((_, i) => {
+        html += `<div class="q-progress-bar ${i === currentStep ? 'active' : ''} ${i < currentStep ? 'filled' : ''}"></div>`;
+      });
+      html += '</div>';
+      if (!document.getElementById('qProgress')) {
+        el.insertAdjacentHTML('afterbegin', html);
+      } else {
+        document.getElementById('qProgress').outerHTML = html;
+      }
+    }
+
+    function buildStep(index) {
+      const q = questions[index];
+      const val = answers[q.name];
+
+      let html = '<div class="q-step active" style="animation:slideInRight 0.4s ease">';
+      html += `<h2>${q.title}</h2>`;
+      html += `<p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem">${q.subtitle}</p>`;
+      html += '<div class="q-options">';
+      q.options.forEach((opt, i) => {
+        const checked = q.type === 'checkbox'
+          ? (Array.isArray(val) && val.includes(opt.value))
+          : val === opt.value;
+        html += `<div class="q-option ${checked ? 'selected' : ''}" style="animation:fadeIn 0.3s ease ${i * 0.06}s both">
+          <input type="${q.type}" name="${q.name}" value="${opt.value}" ${checked ? 'checked' : ''}>
+          <label>${opt.label}${opt.desc ? `<small>${opt.desc}</small>` : ''}</label>
+        </div>`;
+      });
+      html += '</div></div>';
+
+      document.getElementById('qStepContainer').innerHTML = html;
+
+      document.querySelectorAll('.q-option').forEach(opt => {
+        const input = opt.querySelector('input');
+        opt.addEventListener('click', (e) => {
+          if (e.target.tagName !== 'INPUT') input.checked = !input.checked;
+          if (q.type === 'radio') {
+            document.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+            if (input.checked) opt.classList.add('selected');
+            answers[q.name] = input.value;
+          } else {
+            opt.classList.toggle('selected', input.checked);
+            answers[q.name] = [...document.querySelectorAll(`input[name="${q.name}"]:checked`)].map(el => el.value);
+          }
+          savePrefs();
+        });
+        input.addEventListener('change', () => {
+          if (q.type === 'radio') {
+            document.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+            if (input.checked) opt.classList.add('selected');
+            answers[q.name] = input.value;
+          } else {
+            opt.classList.toggle('selected', input.checked);
+            answers[q.name] = [...document.querySelectorAll(`input[name="${q.name}"]:checked`)].map(el => el.value);
+          }
+          savePrefs();
+        });
+      });
+    }
+
+    function showStep(index) {
+      currentStep = index;
+      buildProgress();
+
+      const container = document.getElementById('qStepContainer') || content;
+      if (!document.getElementById('qStepContainer')) {
+        container.innerHTML = '<div id="qStepContainer"></div>';
+      }
+
+      document.getElementById('qStepContainer').innerHTML = '';
+      setTimeout(() => {
+        buildStep(index);
+      }, 50);
+
+      document.getElementById('qPrevBtn').style.visibility = index === 0 ? 'hidden' : 'visible';
+      document.getElementById('qNextBtn').textContent = index === questions.length - 1 ? 'Generar mi plan' : 'Siguiente';
+    }
+
+    function render() {
+      content.innerHTML = `
+        <div id="qProgress"></div>
+        <div id="qStepContainer"></div>
+        <div class="q-actions">
+          <button class="btn btn-outline" id="qPrevBtn" style="visibility:hidden">Anterior</button>
+          <button class="btn btn-primary" id="qNextBtn">Siguiente</button>
+        </div>
+      `;
+
+      document.getElementById('qPrevBtn').addEventListener('click', () => {
+        if (currentStep > 0) showStep(currentStep - 1);
+      });
+
+      document.getElementById('qNextBtn').addEventListener('click', async () => {
+        const q = questions[currentStep];
+        const val = answers[q.name];
+        if (q.type === 'radio' && !val) {
+          showError('Selecciona una opción antes de continuar');
+          return;
+        }
+        if (q.type === 'checkbox' && (!Array.isArray(val) || val.length === 0)) {
+          showError('Selecciona al menos una opción');
+          return;
+        }
+
+        if (currentStep < questions.length - 1) {
+          showStep(currentStep + 1);
+        } else {
+          await generatePlan();
+        }
+      });
+
+      showStep(0);
+    }
+
+    function showError(msg) {
+      const existing = document.querySelector('.q-error');
+      if (!existing) {
+        const err = document.createElement('p');
+        err.className = 'q-error';
+        err.textContent = msg;
+        document.getElementById('qStepContainer').appendChild(err);
+      }
+    }
+
+    async function generatePlan() {
+      const nextBtn = document.getElementById('qNextBtn');
+      nextBtn.disabled = true;
+      nextBtn.textContent = 'Generando...';
+
+      try {
+        const prefs = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        const diet = prefs.diet || '';
+        const maxTime = prefs.cookTime === 'quick' ? 20 : prefs.cookTime === 'moderate' ? 40 : 200;
+        const mealsCount = parseInt(prefs.meals || '4', 10);
+
+        const params = new URLSearchParams();
+        if (diet && diet !== 'omnivore') params.set('diet', diet);
+        params.set('limit', '50');
+
+        let recipes = [];
+        try {
+          const res = await fetch(`${CONFIG.API_URL}/recipes?${params}`);
+          const data = await res.json();
+          if (Array.isArray(data)) recipes = data;
+        } catch {}
+
+        if (!recipes.length && diet !== 'omnivore') {
+          params.set('diet', '');
+          try {
+            const res = await fetch(`${CONFIG.API_URL}/recipes?limit=50`);
+            const data = await res.json();
+            if (Array.isArray(data)) recipes = data;
+          } catch {}
+        }
+
+        if (!recipes.length) {
+          recipes = [
+            { id: 1, name: 'Pollo con arroz', prep_time_minutes: 35 },
+            { id: 2, name: 'Ensalada César', prep_time_minutes: 20 },
+            { id: 3, name: 'Pasta al pesto', prep_time_minutes: 25 },
+            { id: 4, name: 'Tortilla de patatas', prep_time_minutes: 30 },
+            { id: 5, name: 'Batido de plátano', prep_time_minutes: 5 },
+            { id: 6, name: 'Ensalada de aguacate', prep_time_minutes: 10 },
+            { id: 7, name: 'Lentejas guisadas', prep_time_minutes: 45 },
+            { id: 8, name: 'Tostada de aguacate', prep_time_minutes: 10 },
+          ];
+        }
+
+        const filtered = recipes.filter(r => {
+          if (maxTime < 200 && r.prep_time_minutes && r.prep_time_minutes > maxTime) return false;
+          return true;
+        });
+
+        const shuffled = [...(filtered.length ? filtered : recipes)].sort(() => Math.random() - 0.5);
+        const mealTypes = ['desayuno', 'almuerzo', 'cena'];
+        if (mealsCount >= 4) mealTypes.push('snack');
+        if (mealsCount >= 5) mealTypes.push('snack');
+
+        const weekPlan = {};
+        let recipeIndex = 0;
+        const today = new Date();
+        const monday = new Date(today);
+        monday.setDate(today.getDate() - today.getDay() + 1);
+
+        for (let d = 0; d < 7; d++) {
+          const date = new Date(monday);
+          date.setDate(monday.getDate() + d);
+          const dateStr = date.toISOString().split('T')[0];
+          const dayMeals = [];
+
+          for (const mealType of [...new Set(mealTypes)]) {
+            const recipe = shuffled[recipeIndex % shuffled.length];
+            recipeIndex++;
+            dayMeals.push({
+              recipe_id: recipe.id,
+              recipe_name: recipe.name,
+              meal_type: mealType,
+              plan_date: dateStr,
+            });
+          }
+          weekPlan[dateStr] = dayMeals;
+        }
+
+        localStorage.setItem('tf_week_plan', JSON.stringify(weekPlan));
+        localStorage.setItem('tf_questionnaire_done', 'true');
+
+        content.innerHTML = `
+          <div class="q-result">
+            <div class="emoji">🎉</div>
+            <h1>¡Plan generado!</h1>
+            <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem">Hemos creado un menú semanal personalizado para ti.</p>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;align-items:center">
+              <a href="/app.html" class="btn btn-primary btn-lg" style="animation:pulse 2s ease infinite;text-decoration:none">Ver mi plan semanal</a>
+              <a href="/app.html" class="btn btn-outline" style="text-decoration:none">Ir al Dashboard</a>
+            </div>
+          </div>
+        `;
+
+      } catch (err) {
+        content.innerHTML = `
+          <div style="text-align:center;padding:2rem">
+            <p style="color:var(--error)">Error al generar el plan.</p>
+            <button class="btn btn-primary" onclick="location.reload()" style="margin-top:1rem">Intentar de nuevo</button>
+          </div>
+        `;
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>

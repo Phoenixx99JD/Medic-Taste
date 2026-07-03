@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TasteFlow — App</title>
+  <link rel="icon" href="assets/icons/favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components/sidebar.css">
+  <link rel="stylesheet" href="css/components/dashboard.css">
+  <link rel="stylesheet" href="css/components/app-pages.css">
+</head>
+<body>
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="navbar-logo">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="#00897B"/>
+            <path d="M18 8C14 8 11 11 11 15C11 19 15 24 18 28C21 24 25 19 25 15C25 11 22 8 18 8Z" fill="#80CBC4"/>
+            <path d="M18 12C16 12 14.5 13.5 14.5 15.5C14.5 17 16 19.5 18 22C20 19.5 21.5 17 21.5 15.5C21.5 13.5 20 12 18 12Z" fill="#4DB6AC"/>
+          </svg>
+          TasteFlow
+        </a>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">✕</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="sidebar-link active" data-page="dashboard">
+          <span class="icon">📊</span> Dashboard
+        </a>
+
+        <a href="#recipes" class="sidebar-link" data-page="recipes">
+          <span class="icon">📖</span> Recetas
+        </a>
+        <a href="#planner" class="sidebar-link" data-page="planner">
+          <span class="icon">📅</span> Planificador
+        </a>
+        <a href="#favorites" class="sidebar-link" data-page="favorites">
+          <span class="icon">❤️</span> Favoritos
+        </a>
+        <a href="#shopping" class="sidebar-link" data-page="shopping">
+          <span class="icon">🛒</span> Lista de compras
+        </a>
+        <a href="#profile" class="sidebar-link" data-page="profile">
+          <span class="icon">👤</span> Perfil
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user" id="sidebarUser">
+          <div class="sidebar-user-avatar" id="userAvatar">M</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="userName">Usuario</div>
+            <div class="sidebar-user-email" id="userEmail">usuario@correo.com</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="app-main">
+      <div class="app-topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+        <div class="navbar-logo">
+          <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="#00897B"/>
+            <path d="M18 8C14 8 11 11 11 15C11 19 15 24 18 28C21 24 25 19 25 15C25 11 22 8 18 8Z" fill="#80CBC4"/>
+            <path d="M18 12C16 12 14.5 13.5 14.5 15.5C14.5 17 16 19.5 18 22C20 19.5 21.5 17 21.5 15.5C21.5 13.5 20 12 18 12Z" fill="#4DB6AC"/>
+          </svg>
+          TasteFlow
+        </div>
+        <div></div>
+      </div>
+
+      <div id="pageContent">
+        <!-- Dashboard loaded here -->
+      </div>
+    </main>
+
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

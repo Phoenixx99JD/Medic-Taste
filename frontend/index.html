@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TasteFlow - Planifica tu menú semanal con ayuda nutricional profesional. Come sano, vive mejor.">
+  <title>TasteFlow — Come sano, vive mejor</title>
+  <link rel="icon" href="assets/icons/favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components/navbar.css">
+  <link rel="stylesheet" href="css/components/hero.css">
+  <link rel="stylesheet" href="css/components/features.css">
+  <link rel="stylesheet" href="css/components/footer.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="/" class="navbar-logo">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="10" fill="#00897B"/>
+          <path d="M18 8C14 8 11 11 11 15C11 19 15 24 18 28C21 24 25 19 25 15C25 11 22 8 18 8Z" fill="#80CBC4"/>
+          <path d="M18 12C16 12 14.5 13.5 14.5 15.5C14.5 17 16 19.5 18 22C20 19.5 21.5 17 21.5 15.5C21.5 13.5 20 12 18 12Z" fill="#4DB6AC"/>
+        </svg>
+        TasteFlow
+      </a>
+      <div class="navbar-overlay" id="navOverlay"></div>
+      <div class="navbar-links" id="navLinks">
+        <a href="#features" class="active">Inicio</a>
+        <a href="#features">Cómo funciona</a>
+        <a href="#testimonials">Testimonios</a>
+        <a href="login.html" class="btn btn-outline">Iniciar sesión</a>
+        <a href="register.html" class="btn btn-primary">Registrarse</a>
+      </div>
+      <button class="navbar-toggle" id="navToggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-shape hero-shape-1"></div>
+    <div class="hero-shape hero-shape-2"></div>
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-badge">✨ Planificador nutricional</span>
+        <h1>Come sano,<br><span class="text-gradient">vive mejor</span></h1>
+        <p>Planifica tu menú semanal en minutos con recetas balanceadas diseñadas por nutricionistas. Ahorra tiempo, dinero y cuida tu salud.</p>
+        <div class="hero-actions">
+          <a href="register.html" class="btn btn-primary btn-lg">Comenzar gratis</a>
+          <a href="#features" class="btn btn-outline btn-lg">Conocer más</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <h4>+50K</h4>
+            <p>Usuarios activos</p>
+          </div>
+          <div class="hero-stat">
+            <h4>+10K</h4>
+            <p>Recetas saludables</p>
+          </div>
+          <div class="hero-stat">
+            <h4>⭐ 4.8</h4>
+            <p>Valoración media</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-image-wrapper">
+          <img src="assets/images/hero-placeholder.jpg" alt="Plato de comida saludable" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="tag tag-primary">Características</span>
+        <h2>Todo lo que necesitas para <span class="text-gradient">comer mejor</span></h2>
+        <p>Una plataforma completa que hace la alimentación saludable fácil y sostenible.</p>
+      </div>
+      <div class="features-grid">
+        <article class="feature-card animate-on-scroll animate-delay-1">
+          <div class="feature-icon">📋</div>
+          <h3>Planificador semanal</h3>
+          <p>Arma tu menú de 7 días con sugerencias inteligentes basadas en tus objetivos nutricionales y preferencias.</p>
+        </article>
+        <article class="feature-card animate-on-scroll animate-delay-2">
+          <div class="feature-icon">🥗</div>
+          <h3>Recetas balanceadas</h3>
+          <p>Accede a miles de recetas creadas por nutricionistas, con macros detallados y alternativas para cada dieta.</p>
+        </article>
+        <article class="feature-card animate-on-scroll animate-delay-3">
+          <div class="feature-icon">🛒</div>
+          <h3>Lista de compras</h3>
+          <p>Genera automáticamente tu lista de compras agrupada por categorías. Nunca olvides un ingrediente.</p>
+        </article>
+        <article class="feature-card animate-on-scroll animate-delay-4">
+          <div class="feature-icon">📊</div>
+          <h3>Estadísticas nutricionales</h3>
+          <p>Visualiza tu progreso con gráficos de macronutrientes, calorías y cumplimiento de objetivos semanales.</p>
+        </article>
+        <article class="feature-card animate-on-scroll animate-delay-5">
+          <div class="feature-icon">⏱️</div>
+          <h3>Temporizador de cocina</h3>
+          <p>Sigue cada paso de tus recetas con un temporizador integrado. Notificaciones cuando cada paso esté listo.</p>
+        </article>
+        <article class="feature-card animate-on-scroll animate-delay-5">
+          <div class="feature-icon">❤️</div>
+          <h3>Favoritos y colecciones</h3>
+          <p>Guarda tus recetas favoritas y organiza colecciones por tipo de comida, ocasión o estado de ánimo.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats / Benefits -->
+  <section class="section section-alt" id="benefits">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="tag tag-primary">Resultados</span>
+        <h2>Resultados que <span class="text-gradient">hablan</span></h2>
+        <p>Miles de personas ya transformaron su alimentación con TasteFlow.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card animate-on-scroll animate-delay-1">
+          <div class="stat-number">+50%</div>
+          <p class="stat-label">Más tiempo libre</p>
+        </div>
+        <div class="stat-card animate-on-scroll animate-delay-2">
+          <div class="stat-number">-30%</div>
+          <p class="stat-label">Desperdicio de comida</p>
+        </div>
+        <div class="stat-card animate-on-scroll animate-delay-3">
+          <div class="stat-number">+25%</div>
+          <p class="stat-label">Más energía diaria</p>
+        </div>
+        <div class="stat-card animate-on-scroll animate-delay-4">
+          <div class="stat-number">⭐ 4.8</div>
+          <p class="stat-label">Calificación en tiendas</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" id="testimonials">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="tag tag-primary">Testimonios</span>
+        <h2>Lo que dicen <span class="text-gradient">nuestros usuarios</span></h2>
+        <p>Historias reales de personas que transformaron su relación con la comida.</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card animate-on-scroll animate-delay-1">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Desde que uso TasteFlow, planificar mis comidas dejó de ser una tarea tediosa. Las recetas son deliciosas y me ayudaron a alcanzar mis metas de peso."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">
+              <img src="assets/images/avatar-placeholder.jpg" alt="María García">
+            </div>
+            <div>
+              <div class="testimonial-name">María García</div>
+              <div class="testimonial-role">Nutricionista</div>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card animate-on-scroll animate-delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Trabajo 10 horas al día y cocinar saludable parecía imposible. TasteFlow me demostró que sí se puede. La lista de compras automática me salva cada semana."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">
+              <img src="assets/images/avatar-placeholder.jpg" alt="Carlos Mendoza">
+            </div>
+            <div>
+              <div class="testimonial-name">Carlos Mendoza</div>
+              <div class="testimonial-role">Ingeniero de software</div>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card animate-on-scroll animate-delay-3">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Como mamá de dos hijos, necesitaba variedad y rapidez. TasteFlow me da ambas. Mis hijos aman las recetas y yo amo lo fácil que es todo."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">
+              <img src="assets/images/avatar-placeholder.jpg" alt="Ana López">
+            </div>
+            <div>
+              <div class="testimonial-name">Ana López</div>
+              <div class="testimonial-role">Mamá y emprendedora</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>¿Listo para transformar tu alimentación?</h2>
+      <p>Únete a miles de personas que ya disfrutan de una vida más saludable. Empieza hoy, es gratis.</p>
+      <a href="register.html" class="btn btn-lg">Comenzar gratis →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="navbar-logo">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="10" fill="#00897B"/>
+              <path d="M18 8C14 8 11 11 11 15C11 19 15 24 18 28C21 24 25 19 25 15C25 11 22 8 18 8Z" fill="#80CBC4"/>
+              <path d="M18 12C16 12 14.5 13.5 14.5 15.5C14.5 17 16 19.5 18 22C20 19.5 21.5 17 21.5 15.5C21.5 13.5 20 12 18 12Z" fill="#4DB6AC"/>
+            </svg>
+            TasteFlow
+          </a>
+          <p>Planifica tu menú semanal con recetas balanceadas y alcanza tus metas nutricionales de forma sencilla y deliciosa.</p>
+        </div>
+        <div>
+          <h4>Producto</h4>
+          <ul class="footer-links">
+            <li><a href="#features">Características</a></li>
+            <li><a href="#testimonials">Testimonios</a></li>
+            <li><a href="register.html">Registrarse</a></li>
+            <li><a href="login.html">Iniciar sesión</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Recursos</h4>
+          <ul class="footer-links">
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Guías nutricionales</a></li>
+            <li><a href="#">Recetas populares</a></li>
+            <li><a href="#">Preguntas frecuentes</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul class="footer-links">
+            <li><a href="#">Términos y condiciones</a></li>
+            <li><a href="#">Política de privacidad</a></li>
+            <li><a href="#">Política de cookies</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 TasteFlow. Todos los derechos reservados.</span>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="Twitter/X">🐦</a>
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/pages/landing.js"></script>
+</body>
+</html>
