@@ -145,6 +145,7 @@ h4 { font-size: 1.25rem; }
 .btn-primary:hover {
   background: var(--primary-hover);
   border-color: var(--primary-hover);
+  color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 137, 123, 0.3);
 }

@@ -1,4 +1,5 @@
-import { get } from '../services/api.js';
+import { get, put } from '../services/api.js';
+import { getUser, completeOnboarding } from '../services/authService.js';
 
 const STORAGE_KEY = 'tf_preferences';
 
@@ -295,6 +296,7 @@ async function generatePlan(container) {
 
     localStorage.setItem('tf_week_plan', JSON.stringify(weekPlan));
     localStorage.setItem('tf_questionnaire_done', 'true');
+    completeOnboarding().catch(() => {});
 
     container.innerHTML = `
       <div class="questionnaire-section">
@@ -341,5 +343,7 @@ export function loadPreferences() {
 }
 
 export function hasCompletedQuestionnaire() {
-  return localStorage.getItem('tf_questionnaire_done') === 'true';
+  if (localStorage.getItem('tf_questionnaire_done') === 'true') return true;
+  const user = getUser();
+  return user && user.onboarding_completed === 1;
 }

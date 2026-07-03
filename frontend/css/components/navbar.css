@@ -28,10 +28,18 @@
   gap: 0.5rem;
   font-size: 1.4rem;
   font-weight: 800;
+  color: #fff;
+}
+
+.navbar.scrolled .navbar-logo {
   color: var(--text);
 }
 
 .navbar-logo:hover {
+  color: rgba(255,255,255,0.7);
+}
+
+.navbar.scrolled .navbar-logo:hover {
   color: var(--text);
 }
 
@@ -48,13 +56,17 @@
 }
 
 .navbar-links a {
-  color: var(--text-secondary);
+  color: #fff;
   font-weight: 500;
   font-size: 0.95rem;
   position: relative;
 }
 
-.navbar-links a::after {
+.navbar.scrolled .navbar-links a {
+  color: var(--text-secondary);
+}
+
+.navbar-links a:not(.btn)::after {
   content: '';
   position: absolute;
   bottom: -4px;
@@ -66,17 +78,57 @@
   border-radius: 1px;
 }
 
-.navbar-links a:hover::after,
-.navbar-links a.active::after {
+.navbar-links a:not(.btn):hover::after,
+.navbar-links a:not(.btn).active::after {
   width: 100%;
 }
 
 .navbar-links a:hover {
+  color: rgba(255,255,255,0.75);
+}
+
+.navbar.scrolled .navbar-links a:hover {
   color: var(--primary);
 }
 
 .navbar-links .btn {
   margin-left: 0.5rem;
+}
+
+.navbar:not(.scrolled) .navbar-links .btn-outline {
+  color: #fff;
+  border-color: rgba(255,255,255,0.5);
+}
+
+.navbar:not(.scrolled) .navbar-links .btn-outline:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: #fff;
+  color: #fff;
+}
+
+.navbar.scrolled .navbar-links .btn-outline {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.navbar.scrolled .navbar-links .btn-outline:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.navbar-links .btn-primary {
+  color: #fff;
+}
+
+.navbar:not(.scrolled) .navbar-links .btn-primary:hover {
+  color: #fff;
+}
+
+.navbar.scrolled .navbar-links .btn-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  color: #fff;
 }
 
 .navbar-toggle {
@@ -93,9 +145,13 @@
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--text);
+  background: #fff;
   border-radius: 2px;
   transition: all var(--transition);
+}
+
+.navbar.scrolled .navbar-toggle span {
+  background: var(--text);
 }
 
 @media (max-width: 768px) {

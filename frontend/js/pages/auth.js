@@ -1,4 +1,4 @@
-import { login, register } from '../services/authService.js';
+import { login, register, getUser } from '../services/authService.js';
 import { isEmail, isNotEmpty, isPassword } from '../utils/validators.js';
 
 const isLoginPage = window.location.pathname.includes('login');
@@ -81,7 +81,12 @@ form.addEventListener('submit', async (e) => {
     } else {
       await register(data.name, data.email, data.password);
     }
-    window.location.href = '/onboarding.html';
+    const user = getUser();
+    if (user && user.onboarding_completed) {
+      window.location.href = '/app.html';
+    } else {
+      window.location.href = '/onboarding.html';
+    }
   } catch (err) {
     showError(err.message || 'Error al procesar la solicitud');
     submitBtn.disabled = false;

@@ -5,7 +5,7 @@ import { renderPlanner } from './pages/planner.js';
 import { renderFavorites } from './pages/favorites.js';
 import { renderShopping } from './pages/shopping.js';
 import { renderProfile } from './pages/profile.js';
-import { getUser, isAuthenticated, logout } from './services/authService.js';
+import { getUser, isAuthenticated, logout, getMe } from './services/authService.js';
 
 const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -30,7 +30,7 @@ menuToggle.addEventListener('click', () => toggleSidebar(true));
 sidebarClose.addEventListener('click', () => toggleSidebar(false));
 sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
 
-const user = getUser();
+let user = getUser();
 if (user) {
   userName.textContent = user.name || 'Usuario';
   userEmail.textContent = user.email || '';
@@ -78,12 +78,27 @@ sidebarLinks.forEach(link => {
   });
 });
 
-if (!hasCompletedQuestionnaire()) {
-  window.location.href = '/onboarding.html';
-}
+(async function init() {
+  try {
+    const serverUser = await getMe();
+    if (serverUser) {
+      user = serverUser;
+      localStorage.setItem('tf_user', JSON.stringify(serverUser));
+      if (!serverUser.onboarding_completed) localStorage.removeItem('tf_questionnaire_done');
+      userName.textContent = serverUser.name || 'Usuario';
+      userEmail.textContent = serverUser.email || '';
+      userAvatar.textContent = (serverUser.name || 'U')[0].toUpperCase();
+    }
+  } catch {}
 
-window.addEventListener('hashchange', () => {
+  if (!hasCompletedQuestionnaire()) {
+    window.location.href = '/onboarding.html';
+    return;
+  }
+
+  window.addEventListener('hashchange', () => {
+    navigate(getPageFromHash());
+  });
+
   navigate(getPageFromHash());
-});
-
-navigate(getPageFromHash());
+})();

@@ -7,7 +7,7 @@ const User = {
   },
 
   async findById(id) {
-    const [rows] = await pool.query('SELECT id, name, email, created_at FROM users WHERE id = ?', [id]);
+    const [rows] = await pool.query('SELECT id, name, email, onboarding_completed, created_at FROM users WHERE id = ?', [id]);
     return rows[0];
   },
 
@@ -17,6 +17,14 @@ const User = {
       [name, email, password]
     );
     return result.insertId;
+  },
+
+  async update(id, fields) {
+    const keys = Object.keys(fields);
+    if (!keys.length) return;
+    const set = keys.map(k => `${k} = ?`).join(', ');
+    const values = keys.map(k => fields[k]);
+    await pool.query(`UPDATE users SET ${set} WHERE id = ?`, [...values, id]);
   },
 };
 

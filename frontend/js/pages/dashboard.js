@@ -50,21 +50,11 @@ export async function renderDashboard(container) {
       </div>
     </div>
 
-    <div class="dashboard-card" style="margin-top:1.5rem">
-      <div class="dashboard-card-header">
-        <h3>Estadísticas detalladas</h3>
-        <span class="tag tag-primary">Global</span>
-      </div>
-      <div class="dashboard-card-body">
-        <div class="detailed-stats" id="detailedStats"></div>
-      </div>
-    </div>
   `;
 
   loadStats();
   loadTodayMeals();
   loadRanking();
-  loadDetailedStats();
   setTimeout(() => drawChart(), 100);
 }
 
@@ -143,66 +133,6 @@ async function loadRanking() {
     }
   } catch {
     list.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted)">Sin datos</div>';
-  }
-}
-
-async function loadDetailedStats() {
-  const el = document.getElementById('detailedStats');
-  try {
-    const daily = await get('/stats/daily?days=7');
-    const actions = await get('/stats/actions');
-
-    if (!Array.isArray(daily) && !Array.isArray(actions)) {
-      el.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:0.9rem">Sin datos estadísticos aún</div>';
-      return;
-    }
-
-    let html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">';
-
-    if (Array.isArray(actions) && actions.length) {
-      html += '<div><h4 style="font-size:0.9rem;margin-bottom:0.75rem">📊 Acciones totales</h4>';
-      actions.forEach(a => {
-        const pct = Math.min(100, a.count * 10);
-        html += `
-          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;font-size:0.85rem">
-            <span style="min-width:100px">${a.action_type.replace(/_/g, ' ')}</span>
-            <div style="flex:1;height:8px;background:var(--border-light);border-radius:4px;overflow:hidden">
-              <div style="height:100%;width:${pct}%;background:var(--primary);border-radius:4px;transition:width 0.5s ease"></div>
-            </div>
-            <span style="min-width:30px;text-align:right;font-weight:600">${a.count}</span>
-          </div>`;
-      });
-      html += '</div>';
-    }
-
-    if (Array.isArray(daily) && daily.length) {
-      const dayMap = {};
-      daily.forEach(d => {
-        if (!dayMap[d.date]) dayMap[d.date] = [];
-        dayMap[d.date].push(d);
-      });
-      const dates = Object.keys(dayMap).slice(0, 7);
-      html += '<div><h4 style="font-size:0.9rem;margin-bottom:0.75rem">📈 Actividad diaria</h4>';
-      dates.forEach(date => {
-        const total = dayMap[date].reduce((s, d) => s + d.count, 0);
-        const [y, m, d] = date.split('-');
-        const label = `${d}/${m}`;
-        html += `
-          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;font-size:0.85rem">
-            <span style="min-width:50px">${label}</span>
-            <div style="flex:1;height:8px;background:var(--border-light);border-radius:4px;overflow:hidden">
-              <div style="height:100%;width:${Math.min(100, total * 15)}%;background:var(--secondary);border-radius:4px"></div>
-            </div>
-            <span style="min-width:30px;text-align:right;font-weight:600">${total}</span>
-          </div>`;
-      });
-      html += '</div>';
-    }
-
-    html += '</div>';
-    el.innerHTML = html;
-  } catch {
-    el.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:0.9rem">Sin datos estadísticos aún</div>';
   }
 }
 

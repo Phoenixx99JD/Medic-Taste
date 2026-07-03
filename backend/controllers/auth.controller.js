@@ -22,7 +22,7 @@ exports.register = async (req, res, next) => {
     const id = await User.create({ name, email, password: hashed });
     const token = generateToken({ id, name, email });
 
-    res.status(201).json({ token, user: { id, name, email } });
+    res.status(201).json({ token, user: { id, name, email, onboarding_completed: 0 } });
   } catch (err) { next(err); }
 };
 
@@ -39,7 +39,7 @@ exports.login = async (req, res, next) => {
     if (!match) return res.status(401).json({ error: 'Credenciales inválidas' });
 
     const token = generateToken(user);
-    res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+    res.json({ token, user: { id: user.id, name: user.name, email: user.email, onboarding_completed: user.onboarding_completed } });
   } catch (err) { next(err); }
 };
 
@@ -48,5 +48,19 @@ exports.me = async (req, res, next) => {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
     res.json(user);
+  } catch (err) { next(err); }
+};
+
+exports.completeOnboarding = async (req, res, next) => {
+  try {
+    await User.update(req.user.id, { onboarding_completed: 1 });
+    res.json({ message: 'Onboarding completado' });
+  } catch (err) { next(err); }
+};
+
+exports.resetOnboarding = async (req, res, next) => {
+  try {
+    await User.update(req.user.id, { onboarding_completed: 0 });
+    res.json({ message: 'Onboarding reiniciado' });
   } catch (err) { next(err); }
 };

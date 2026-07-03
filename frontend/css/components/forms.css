@@ -3,8 +3,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 50%, #E0F2F1 100%);
   padding: 2rem 1rem;
+  position: relative;
+  background: url('../../assets/images/auth-bg.jpg');
+  background-size: cover;
+  background-position: 60% left;
+  background-repeat: no-repeat;
+}
+
+.auth-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.auth-page > * {
+  position: relative;
+  z-index: 2;
 }
 
 .auth-card {
@@ -20,6 +38,7 @@
 .auth-card .navbar-logo {
   justify-content: center;
   margin-bottom: 0.5rem;
+  color: var(--text);
 }
 
 .auth-card .navbar-logo:hover {

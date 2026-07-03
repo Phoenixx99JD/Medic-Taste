@@ -1,4 +1,4 @@
-import { getUser, logout } from '../services/authService.js';
+import { getUser, logout, resetOnboarding } from '../services/authService.js';
 import { loadPreferences, hasCompletedQuestionnaire } from './questionnaire.js';
 
 export function renderProfile(container) {
@@ -47,8 +47,9 @@ export function renderProfile(container) {
     </div>
   `;
 
-  document.getElementById('redoQuestionnaire')?.addEventListener('click', () => {
+  document.getElementById('redoQuestionnaire')?.addEventListener('click', async () => {
     localStorage.removeItem('tf_questionnaire_done');
+    await resetOnboarding().catch(() => {});
     window.location.href = '/onboarding.html';
   });
 
