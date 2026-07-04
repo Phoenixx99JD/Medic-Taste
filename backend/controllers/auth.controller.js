@@ -22,7 +22,7 @@ exports.register = async (req, res, next) => {
     const id = await User.create({ name, email, password: hashed });
     const token = generateToken({ id, name, email });
 
-    res.status(201).json({ token, user: { id, name, email, onboarding_completed: 0 } });
+    res.status(201).json({ token, user: { id, name, email, onboarding_completed: 0, photo_url: null } });
   } catch (err) { next(err); }
 };
 
@@ -39,7 +39,7 @@ exports.login = async (req, res, next) => {
     if (!match) return res.status(401).json({ error: 'Credenciales inválidas' });
 
     const token = generateToken(user);
-    res.json({ token, user: { id: user.id, name: user.name, email: user.email, onboarding_completed: user.onboarding_completed } });
+    res.json({ token, user: { id: user.id, name: user.name, email: user.email, onboarding_completed: user.onboarding_completed, photo_url: user.photo_url || null } });
   } catch (err) { next(err); }
 };
 
@@ -62,5 +62,15 @@ exports.resetOnboarding = async (req, res, next) => {
   try {
     await User.update(req.user.id, { onboarding_completed: 0 });
     res.json({ message: 'Onboarding reiniciado' });
+  } catch (err) { next(err); }
+};
+
+exports.uploadPhoto = async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No se envió ninguna imagen' });
+    const photoUrl = `/uploads/${req.file.filename}`;
+    await User.update(req.user.id, { photo_url: photoUrl });
+    const user = await User.findById(req.user.id);
+    res.json({ photo_url: photoUrl, user });
   } catch (err) { next(err); }
 };

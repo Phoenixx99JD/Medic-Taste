@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const { pool } = require('../config/db');
 
 const SuggestionService = {
   async suggestByIngredients(ingredientNames, limit = 5) {

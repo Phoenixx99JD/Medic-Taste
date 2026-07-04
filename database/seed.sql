@@ -5,32 +5,32 @@ INSERT INTO users (name, email, password) VALUES
 ('Usuario Demo', 'demo@tasteflow.com', '$2a$10$dummyhashparaeldemo');
 
 -- Ingredientes
-INSERT INTO ingredients (name, category, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g) VALUES
-('Pechuga de pollo', 'Carnes', 165, 31.0, 0.0, 3.6),
-('Arroz blanco', 'Granos', 130, 2.7, 28.0, 0.3),
-('Tomate', 'Verduras', 18, 0.9, 3.9, 0.2),
-('Lechuga', 'Verduras', 15, 1.4, 2.9, 0.2),
-('Cebolla', 'Verduras', 40, 1.1, 9.3, 0.1),
-('Aceite de oliva', 'Aceites y Grasas', 884, 0.0, 0.0, 100.0),
-('Sal', 'Condimentos', 0, 0.0, 0.0, 0.0),
-('Pasta', 'Granos', 131, 5.0, 25.0, 1.1),
-('Queso parmesano', 'Lácteos', 431, 38.0, 4.1, 29.0),
-('Huevo', 'Lácteos', 155, 13.0, 1.1, 11.0),
-('Leche', 'Lácteos', 42, 3.4, 5.0, 1.0),
-('Harina de trigo', 'Granos', 364, 10.0, 76.0, 1.0),
-('Ajo', 'Verduras', 149, 6.4, 33.0, 0.5),
-('Aguacate', 'Verduras', 160, 2.0, 8.5, 14.7),
-('Pan integral', 'Granos', 247, 13.0, 41.0, 3.4),
-('Atún en lata', 'Pescados', 198, 29.0, 0.0, 8.2),
-('Lentejas', 'Legumbres', 116, 9.0, 20.0, 0.4),
-('Zanahoria', 'Verduras', 41, 0.9, 9.6, 0.2),
-('Plátano', 'Frutas', 89, 1.1, 23.0, 0.3),
-('Manzana', 'Frutas', 52, 0.3, 14.0, 0.2),
-('Yogur natural', 'Lácteos', 61, 3.5, 4.7, 3.3),
-('Almendras', 'Frutos Secos', 579, 21.0, 22.0, 50.0),
-('Miel', 'Endulzantes', 304, 0.3, 82.0, 0.0),
-('Pimiento rojo', 'Verduras', 31, 1.0, 6.0, 0.3),
-('Calabacín', 'Verduras', 17, 1.2, 3.1, 0.3);
+INSERT INTO ingredients (name, category, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g, grams_per_unit) VALUES
+('Pechuga de pollo', 'Carnes', 165, 31.0, 0.0, 3.6, NULL),
+('Arroz blanco', 'Granos', 130, 2.7, 28.0, 0.3, NULL),
+('Tomate', 'Verduras', 18, 0.9, 3.9, 0.2, 100),
+('Lechuga', 'Verduras', 15, 1.4, 2.9, 0.2, NULL),
+('Cebolla', 'Verduras', 40, 1.1, 9.3, 0.1, NULL),
+('Aceite de oliva', 'Aceites y Grasas', 884, 0.0, 0.0, 100.0, NULL),
+('Sal', 'Condimentos', 0, 0.0, 0.0, 0.0, NULL),
+('Pasta', 'Granos', 131, 5.0, 25.0, 1.1, NULL),
+('Queso parmesano', 'Lácteos', 431, 38.0, 4.1, 29.0, NULL),
+('Huevo', 'Lácteos', 155, 13.0, 1.1, 11.0, 55),
+('Leche', 'Lácteos', 42, 3.4, 5.0, 1.0, NULL),
+('Harina de trigo', 'Granos', 364, 10.0, 76.0, 1.0, NULL),
+('Ajo', 'Verduras', 149, 6.4, 33.0, 0.5, NULL),
+('Aguacate', 'Verduras', 160, 2.0, 8.5, 14.7, 150),
+('Pan integral', 'Granos', 247, 13.0, 41.0, 3.4, 35),
+('Atún en lata', 'Pescados', 198, 29.0, 0.0, 8.2, NULL),
+('Lentejas', 'Legumbres', 116, 9.0, 20.0, 0.4, NULL),
+('Zanahoria', 'Verduras', 41, 0.9, 9.6, 0.2, NULL),
+('Plátano', 'Frutas', 89, 1.1, 23.0, 0.3, 120),
+('Manzana', 'Frutas', 52, 0.3, 14.0, 0.2, NULL),
+('Yogur natural', 'Lácteos', 61, 3.5, 4.7, 3.3, NULL),
+('Almendras', 'Frutos Secos', 579, 21.0, 22.0, 50.0, NULL),
+('Miel', 'Endulzantes', 304, 0.3, 82.0, 0.0, NULL),
+('Pimiento rojo', 'Verduras', 31, 1.0, 6.0, 0.3, NULL),
+('Calabacín', 'Verduras', 17, 1.2, 3.1, 0.3, NULL);
 
 -- Recetas
 INSERT INTO recipes (name, photo_url, description, servings, prep_time_minutes, diet_tags) VALUES

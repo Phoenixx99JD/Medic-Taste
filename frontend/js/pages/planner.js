@@ -71,7 +71,7 @@ export function renderPlanner(container) {
           <button class="btn btn-outline" style="width:100%;padding:0.35rem;font-size:0.8rem;margin-top:0.5rem" data-add="${dateStr}">+ Agregar</button>
         </div>
       `;
-    });
+    }).join('');
 
     const totalDays = Object.keys(saved).filter(d => (saved[d] || []).length).length;
 

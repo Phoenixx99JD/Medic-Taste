@@ -55,4 +55,20 @@ export function del(endpoint) {
   return request(endpoint, { method: 'DELETE' });
 }
 
+export function upload(endpoint, formData) {
+  const token = localStorage.getItem(CONFIG.STORAGE_KEYS.TOKEN);
+  const headers = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  return fetch(`${CONFIG.API_URL}${endpoint}`, {
+    method: 'PUT',
+    headers,
+    body: formData,
+  }).then(async res => {
+    const data = await res.json();
+    if (!res.ok) throw new ApiError(res.status, data.message || data.error || 'Error en la solicitud');
+    return data;
+  });
+}
+
 export { ApiError };

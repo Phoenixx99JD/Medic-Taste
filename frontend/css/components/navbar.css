@@ -118,16 +118,12 @@
 }
 
 .navbar-links .btn-primary {
-  color: #fff;
+  background: #fff;
+  color: var(--primary);
 }
 
-.navbar:not(.scrolled) .navbar-links .btn-primary:hover {
-  color: #fff;
-}
-
-.navbar.scrolled .navbar-links .btn-primary:hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
+.navbar-links .btn-primary:hover {
+  background: var(--primary);
   color: #fff;
 }
 

@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
   email                 VARCHAR(255) NOT NULL UNIQUE,
   password              VARCHAR(255) NOT NULL,
   onboarding_completed  TINYINT(1)   NOT NULL DEFAULT 0,
+  photo_url             VARCHAR(500) DEFAULT NULL,
   created_at            TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -40,7 +41,8 @@ CREATE TABLE IF NOT EXISTS ingredients (
   calories_per_100g DECIMAL(8,2) DEFAULT NULL,
   protein_per_100g  DECIMAL(8,2) DEFAULT NULL,
   carbs_per_100g    DECIMAL(8,2) DEFAULT NULL,
-  fat_per_100g      DECIMAL(8,2) DEFAULT NULL
+  fat_per_100g      DECIMAL(8,2) DEFAULT NULL,
+  grams_per_unit    DECIMAL(8,2) DEFAULT NULL COMMENT 'peso en gramos de 1 unidad (para unidad/ml)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE INDEX idx_ingredients_category ON ingredients(category);

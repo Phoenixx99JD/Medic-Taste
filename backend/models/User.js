@@ -7,7 +7,7 @@ const User = {
   },
 
   async findById(id) {
-    const [rows] = await pool.query('SELECT id, name, email, onboarding_completed, created_at FROM users WHERE id = ?', [id]);
+    const [rows] = await pool.query('SELECT id, name, email, onboarding_completed, photo_url, created_at FROM users WHERE id = ?', [id]);
     return rows[0];
   },
 

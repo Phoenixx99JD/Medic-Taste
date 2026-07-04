@@ -9,9 +9,12 @@ export async function renderDashboard(container) {
   const firstName = user?.name?.split(' ')[0] || 'Usuario';
 
   container.innerHTML = `
-    <div class="dashboard-header">
-      <h1>Bienvenido, ${firstName}</h1>
-      <p>Resumen nutricional y estadísticas</p>
+    <div class="dashboard-banner">
+      <div class="dashboard-banner-bg"></div>
+      <div class="dashboard-header">
+        <h1>Bienvenido, ${firstName}</h1>
+        <p>Resumen nutricional y estadísticas</p>
+      </div>
     </div>
 
     <div class="stats-row" id="statsRow"></div>

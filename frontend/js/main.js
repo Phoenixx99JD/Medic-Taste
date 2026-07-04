@@ -30,11 +30,27 @@ menuToggle.addEventListener('click', () => toggleSidebar(true));
 sidebarClose.addEventListener('click', () => toggleSidebar(false));
 sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
 
-let user = getUser();
-if (user) {
+function updateSidebarUser(user) {
   userName.textContent = user.name || 'Usuario';
   userEmail.textContent = user.email || '';
-  userAvatar.textContent = (user.name || 'U')[0].toUpperCase();
+  if (user.photo_url) {
+    userAvatar.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = `http://localhost:3000${user.photo_url}`;
+    img.alt = 'Foto de perfil';
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.borderRadius = '50%';
+    img.style.objectFit = 'cover';
+    userAvatar.appendChild(img);
+  } else {
+    userAvatar.textContent = (user.name || 'U')[0].toUpperCase();
+  }
+}
+
+let user = getUser();
+if (user) {
+  updateSidebarUser(user);
 }
 
 const routes = {
@@ -85,9 +101,7 @@ sidebarLinks.forEach(link => {
       user = serverUser;
       localStorage.setItem('tf_user', JSON.stringify(serverUser));
       if (!serverUser.onboarding_completed) localStorage.removeItem('tf_questionnaire_done');
-      userName.textContent = serverUser.name || 'Usuario';
-      userEmail.textContent = serverUser.email || '';
-      userAvatar.textContent = (serverUser.name || 'U')[0].toUpperCase();
+      updateSidebarUser(serverUser);
     }
   } catch {}
 

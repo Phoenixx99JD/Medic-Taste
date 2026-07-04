@@ -1,4 +1,4 @@
-import { post, put, del, get } from './api.js';
+import { post, put, del, get, upload } from './api.js';
 import { CONFIG } from '../config.js';
 
 export async function login(email, password) {
@@ -36,6 +36,18 @@ export async function resetOnboarding() {
   const user = getUser();
   if (user) {
     user.onboarding_completed = 0;
+    localStorage.setItem(CONFIG.STORAGE_KEYS.USER, JSON.stringify(user));
+  }
+  return data;
+}
+
+export async function uploadProfilePhoto(file) {
+  const fd = new FormData();
+  fd.append('photo', file);
+  const data = await upload('/auth/profile/photo', fd);
+  const user = getUser();
+  if (user) {
+    user.photo_url = data.photo_url;
     localStorage.setItem(CONFIG.STORAGE_KEYS.USER, JSON.stringify(user));
   }
   return data;
