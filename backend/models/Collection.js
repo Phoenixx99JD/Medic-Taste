@@ -22,12 +22,14 @@ const Collection = {
     return result.insertId;
   },
 
-  async update(id, name) {
-    await pool.query('UPDATE collections SET name = ? WHERE id = ?', [name, id]);
+  async update(id, userId, name) {
+    const [result] = await pool.query('UPDATE collections SET name = ? WHERE id = ? AND user_id = ?', [name, id, userId]);
+    return result.affectedRows > 0;
   },
 
-  async remove(id) {
-    await pool.query('DELETE FROM collections WHERE id = ?', [id]);
+  async remove(id, userId) {
+    const [result] = await pool.query('DELETE FROM collections WHERE id = ? AND user_id = ?', [id, userId]);
+    return result.affectedRows > 0;
   },
 
   async getRecipes(collectionId) {

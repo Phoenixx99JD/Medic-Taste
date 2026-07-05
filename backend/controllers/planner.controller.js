@@ -28,14 +28,16 @@ exports.add = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    await MealPlan.update(req.params.id, req.body);
+    const updated = await MealPlan.update(req.params.id, req.user.id, req.body);
+    if (!updated) return res.status(404).json({ error: 'Plan no encontrado' });
     res.json({ message: 'Plan actualizado' });
   } catch (err) { next(err); }
 };
 
 exports.remove = async (req, res, next) => {
   try {
-    await MealPlan.remove(req.params.id);
+    const removed = await MealPlan.remove(req.params.id, req.user.id);
+    if (!removed) return res.status(404).json({ error: 'Comida no encontrada en el plan' });
     res.json({ message: 'Comida eliminada del plan' });
   } catch (err) { next(err); }
 };
