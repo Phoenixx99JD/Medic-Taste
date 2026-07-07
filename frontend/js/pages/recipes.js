@@ -1,6 +1,14 @@
 import { get } from '../services/api.js';
 import { logUsage } from '../services/usage.js';
 
+function nameToSlug(name) {
+  return name
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 export function renderRecipes(container) {
   container.innerHTML = `
     <div class="recipes-header">
@@ -43,10 +51,14 @@ export function renderRecipes(container) {
         return;
       }
 
-      grid.innerHTML = recipes.map(r => `
+      grid.innerHTML = recipes.map(r => {
+        const slug = nameToSlug(r.name);
+        const recipeImg = `assets/images/recipes/${slug}.jpg`;
+        const recipeImgSvg = `assets/images/recipes/${slug}.svg`;
+        return `
         <article class="recipe-card-full" data-id="${r.id}">
           <div class="recipe-card-full-image">
-            ${r.photo_url ? `<img src="${r.photo_url}" alt="${r.name}" style="width:100%;height:100%;object-fit:cover">` : '🍽️'}
+            <img src="${recipeImg}" alt="${r.name}" loading="lazy" onerror="var s=this;if(!s.dataset.f){s.dataset.f=1;s.src='${recipeImgSvg}'}else{s.style.display='none';s.nextElementSibling.style.display='flex'}"><div class="recipe-card-full-image-fallback" style="display:none">🍽️</div>
           </div>
           <div class="recipe-card-full-body">
             <h3>${r.name}</h3>
@@ -57,7 +69,7 @@ export function renderRecipes(container) {
             ${r.diet_tags ? `<div class="recipe-card-full-tags">${r.diet_tags.split(',').map(t => `<span class="tag tag-primary">${t.trim()}</span>`).join('')}</div>` : ''}
           </div>
         </article>
-      `).join('');
+      `}).join('');
 
       grid.querySelectorAll('.recipe-card-full').forEach(el => {
         el.addEventListener('click', () => showRecipeDetail(el.dataset.id));
@@ -81,10 +93,17 @@ async function showRecipeDetail(id) {
   try {
     const recipe = await get(`/recipes/${id}`);
     logUsage('recipe_viewed', id);
+    const slug = nameToSlug(recipe.name);
+    const recipeImg = `assets/images/recipes/${slug}.jpg`;
+    const recipeImgSvg = `assets/images/recipes/${slug}.svg`;
     const overlay = document.createElement('div');
     overlay.className = 'recipe-detail-overlay';
     overlay.innerHTML = `
       <div class="recipe-detail-card">
+        <div class="recipe-detail-image">
+          <img src="${recipeImg}" alt="${recipe.name}" loading="lazy" onerror="var s=this;if(!s.dataset.f){s.dataset.f=1;s.src='${recipeImgSvg}'}else{s.style.display='none'}">
+        </div>
+
         <div class="recipe-detail-header">
           <h2>${recipe.name}</h2>
           <button class="recipe-detail-close" id="detailClose">✕</button>
@@ -101,7 +120,11 @@ async function showRecipeDetail(id) {
         ${recipe.ingredients?.length ? `
           <div class="recipe-detail-section">
             <h4>Ingredientes</h4>
-            <ul>${recipe.ingredients.map(i => `<li>${i.amount} ${i.unit} de ${i.name}</li>`).join('')}</ul>
+            <ul>${recipe.ingredients.map(i => {
+              const slug = nameToSlug(i.name);
+              const img = `assets/images/ingredients/${slug}.jpg`;
+              return `<li class="ingredient-item">${i.amount} ${i.unit} de ${i.name}<span class="ingredient-tooltip"><img src="${img}" alt="${i.name}" loading="lazy" onerror="var s=this;var p=s.closest('.ingredient-tooltip');if(!s.dataset.f){s.dataset.f=1;s.src='assets/images/ingredients/${slug}.svg'}else{p.style.display='none'}"></span></li>`;
+            }).join('')}</ul>
           </div>
         ` : ''}
 

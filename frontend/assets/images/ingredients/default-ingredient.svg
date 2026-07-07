@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="64" fill="#F3F7FF"/>
+  <circle cx="256" cy="256" r="180" fill="#DDEBFF"/>
+  <path d="M256 120c-58 0-105 47-105 105 0 24 8 46 21 64l84 128 84-128c13-18 21-40 21-64 0-58-47-105-105-105Z" fill="#4F7CFF"/>
+  <path d="M256 236c-18 0-33-15-33-33s15-33 33-33 33 15 33 33-15 33-33 33Z" fill="#FFFFFF"/>
+  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" fill="#2F3B59">Ingrediente</text>
+</svg>
