@@ -131,7 +131,7 @@ async function showRecipeDetail(id) {
         ${recipe.steps?.length ? `
           <div class="recipe-detail-section">
             <h4>Pasos</h4>
-            <ol class="recipe-detail-steps">${recipe.steps.map(s => `<li>${s.instruction}${s.timer_seconds ? ` <span class="tag tag-primary">⏱ ${s.timer_seconds}s</span>` : ''}</li>`).join('')}</ol>
+            <ol class="recipe-detail-steps">${recipe.steps.map(s => `<li>${s.instruction}${s.timer_seconds ? ` <span class="tag tag-primary">⏱ ${s.timer_seconds >= 60 ? Math.floor(s.timer_seconds / 60) + 'm' + (s.timer_seconds % 60 ? ' ' + (s.timer_seconds % 60) + 's' : '') : s.timer_seconds + 's'}</span>` : ''}</li>`).join('')}</ol>
           </div>
         ` : ''}
 
