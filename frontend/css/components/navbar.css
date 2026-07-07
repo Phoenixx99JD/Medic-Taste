@@ -123,8 +123,8 @@
 }
 
 .navbar-links .btn-primary:hover {
-  background: var(--primary);
-  color: #fff;
+  background: #e8e8e8;
+  color: var(--primary);
 }
 
 .navbar-toggle {

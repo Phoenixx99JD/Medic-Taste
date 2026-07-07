@@ -21,7 +21,7 @@ const UsageStats = {
 
   async getRecipeRanking(limit = 10) {
     const [rows] = await pool.query(
-      `SELECT r.id, r.name, COUNT(*) AS views
+      `SELECT r.id, r.name, r.photo_url, COUNT(*) AS views
        FROM usage_stats us
        JOIN recipes r ON r.id = us.recipe_id
        WHERE us.action_type = 'recipe_viewed'

@@ -15,12 +15,21 @@ const ESTIMATED_PRICES = {
 export async function renderShopping(container) {
   container.innerHTML = `
     <div class="shopping-header">
-      <h1>Lista de Compras</h1>
-      <p>Ingredientes necesarios para tu plan semanal.</p>
+      <h1>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.4rem;color:var(--warning)"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        Lista de Compras
+      </h1>
+      <p>Ingredientes necesarios para tu plan semanal</p>
     </div>
     <div class="shopping-actions">
-      <button class="btn btn-outline" id="refreshShopping">Actualizar</button>
-      <button class="btn btn-outline" id="clearShopping">Limpiar tachados</button>
+      <button class="btn btn-outline" id="refreshShopping">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        Actualizar
+      </button>
+      <button class="btn btn-outline" id="clearShopping">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        Limpiar tachados
+      </button>
     </div>
     <div id="shoppingContent">
       <div class="page-loading">Generando lista de compras...</div>
@@ -49,7 +58,9 @@ export async function renderShopping(container) {
       if (!recipeIds.length) {
         content.innerHTML = `
           <div class="favorites-empty">
-            <div class="icon">🛒</div>
+            <div class="icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            </div>
             <h3>No hay comidas planificadas</h3>
             <p>Primero crea un plan semanal para ver tu lista de compras.</p>
           </div>
@@ -68,7 +79,9 @@ export async function renderShopping(container) {
       if (!allIngredients.length) {
         content.innerHTML = `
           <div class="favorites-empty">
-            <div class="icon">🛒</div>
+            <div class="icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            </div>
             <h3>Sin ingredientes</h3>
             <p>Las recetas de tu plan no tienen ingredientes registrados.</p>
           </div>
@@ -101,7 +114,7 @@ export async function renderShopping(container) {
       content.innerHTML = `
         <div class="shopping-summary">
           <div>
-            <span class="shopping-summary-main"><strong>${totalItems}</strong> ingredientes · <strong>${totalCategories}</strong> categorías</span>
+            <strong>${totalItems}</strong> ingredientes · <strong>${totalCategories}</strong> categorías
             <span class="shopping-summary-checked" id="checkedCount">0 marcados</span>
           </div>
           <span class="shopping-summary-total">Total: <strong id="totalPrice">$0.00</strong></span>

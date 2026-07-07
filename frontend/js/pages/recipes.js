@@ -58,13 +58,21 @@ export function renderRecipes(container) {
         return `
         <article class="recipe-card-full" data-id="${r.id}">
           <div class="recipe-card-full-image">
-            <img src="${recipeImg}" alt="${r.name}" loading="lazy" onerror="var s=this;if(!s.dataset.f){s.dataset.f=1;s.src='${recipeImgSvg}'}else{s.style.display='none';s.nextElementSibling.style.display='flex'}"><div class="recipe-card-full-image-fallback" style="display:none">🍽️</div>
+            ${r.photo_url
+              ? `<img src="${r.photo_url}" alt="${r.name}" loading="lazy" onerror="var s=this;if(!s.dataset.f){s.dataset.f=1;s.src='${recipeImg}'}else if(!s.dataset.g){s.dataset.g=1;s.src='${recipeImgSvg}'}else{s.style.display='none';s.nextElementSibling.style.display='flex'}"><div class="recipe-card-full-image-fallback" style="display:none">🍽️</div>`
+              : `<img src="${recipeImg}" alt="${r.name}" loading="lazy" onerror="var s=this;if(!s.dataset.f){s.dataset.f=1;s.src='${recipeImgSvg}'}else{s.style.display='none';s.nextElementSibling.style.display='flex'}"><div class="recipe-card-full-image-fallback" style="display:none">🍽️</div>`}
           </div>
           <div class="recipe-card-full-body">
             <h3>${r.name}</h3>
             <div class="recipe-card-full-meta">
-              <span>⏱ ${r.prep_time_minutes || '—'} min</span>
-              <span>🍽 ${r.servings || '—'} porc.</span>
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.2rem"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                ${r.prep_time_minutes || '—'} min
+              </span>
+              <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.2rem"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><line x1="8" y1="7" x2="16" y2="7"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                ${r.servings || '—'} porc.
+              </span>
             </div>
             ${r.diet_tags ? `<div class="recipe-card-full-tags">${r.diet_tags.split(',').map(t => `<span class="tag tag-primary">${t.trim()}</span>`).join('')}</div>` : ''}
           </div>
@@ -101,7 +109,9 @@ async function showRecipeDetail(id) {
     overlay.innerHTML = `
       <div class="recipe-detail-card">
         <div class="recipe-detail-image">
-          <img src="${recipeImg}" alt="${recipe.name}" loading="lazy" onerror="var s=this;if(!s.dataset.f){s.dataset.f=1;s.src='${recipeImgSvg}'}else{s.style.display='none'}">
+          ${recipe.photo_url
+            ? `<img src="${recipe.photo_url}" alt="${recipe.name}" loading="lazy" onerror="var s=this;if(!s.dataset.f){s.dataset.f=1;s.src='${recipeImg}'}else if(!s.dataset.g){s.dataset.g=1;s.src='${recipeImgSvg}'}else{s.style.display='none'}">`
+            : `<img src="${recipeImg}" alt="${recipe.name}" loading="lazy" onerror="var s=this;if(!s.dataset.f){s.dataset.f=1;s.src='${recipeImgSvg}'}else{s.style.display='none'}">`}
         </div>
 
         <div class="recipe-detail-header">
@@ -110,8 +120,14 @@ async function showRecipeDetail(id) {
         </div>
 
         <div class="recipe-detail-meta">
-          <span>⏱ ${recipe.prep_time_minutes || '—'} min</span>
-          <span>🍽 ${recipe.servings || '—'} porciones</span>
+          <span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.25rem"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            ${recipe.prep_time_minutes || '—'} min
+          </span>
+          <span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.25rem"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><line x1="8" y1="7" x2="16" y2="7"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            ${recipe.servings || '—'} porciones
+          </span>
           ${recipe.diet_tags ? recipe.diet_tags.split(',').map(t => `<span class="tag tag-primary">${t.trim()}</span>`).join('') : ''}
         </div>
 
@@ -131,13 +147,16 @@ async function showRecipeDetail(id) {
         ${recipe.steps?.length ? `
           <div class="recipe-detail-section">
             <h4>Pasos</h4>
-            <ol class="recipe-detail-steps">${recipe.steps.map(s => `<li>${s.instruction}${s.timer_seconds ? ` <span class="tag tag-primary">⏱ ${s.timer_seconds >= 60 ? Math.floor(s.timer_seconds / 60) + 'm' + (s.timer_seconds % 60 ? ' ' + (s.timer_seconds % 60) + 's' : '') : s.timer_seconds + 's'}</span>` : ''}</li>`).join('')}</ol>
+            <ol class="recipe-detail-steps">${recipe.steps.map(s => `<li>${s.instruction}${s.timer_seconds ? ` <span class="tag tag-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.2rem"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> ${s.timer_seconds >= 60 ? Math.floor(s.timer_seconds / 60) + 'm' + (s.timer_seconds % 60 ? ' ' + (s.timer_seconds % 60) + 's' : '') : s.timer_seconds + 's'}</span>` : ''}</li>`).join('')}</ol>
           </div>
         ` : ''}
 
         <div class="recipe-detail-add">
           <button class="btn btn-primary" id="addToPlannerBtn">Agregar al planificador</button>
-          <button class="btn btn-outline" id="addToFavBtn">❤️ Favorito</button>
+          <button class="btn btn-outline" id="addToFavBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            Favorito
+          </button>
         </div>
       </div>
     `;
@@ -171,7 +190,7 @@ async function showRecipeDetail(id) {
         const { post } = await import('../services/api.js');
         await post('/favorites', { recipe_id: recipe.id });
         logUsage('favorite_added', recipe.id);
-        document.getElementById('addToFavBtn').textContent = '❤️ Agregado';
+        document.getElementById('addToFavBtn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.3rem"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> Agregado';
         document.getElementById('addToFavBtn').disabled = true;
       } catch {
         alert('Error al agregar a favoritos');

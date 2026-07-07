@@ -12,7 +12,10 @@ export function renderProfile(container) {
 
   container.innerHTML = `
     <div class="profile-header">
-      <h1>Perfil</h1>
+      <h1>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.4rem;color:var(--primary)"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        Perfil
+      </h1>
     </div>
 
     <div class="profile-card">
@@ -23,7 +26,10 @@ export function renderProfile(container) {
             : `<span>${(user?.name || 'U')[0].toUpperCase()}</span>`
           }
         </div>
-        <button class="btn btn-outline btn-sm" id="uploadPhotoBtn">Cambiar foto</button>
+        <button class="btn btn-outline btn-sm" id="uploadPhotoBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          Cambiar foto
+        </button>
         <input type="file" id="photoInput" accept="image/*" hidden />
       </div>
 
@@ -44,7 +50,7 @@ export function renderProfile(container) {
             ${prefs.goal ? `<span class="tag tag-success">${getGoalLabel(prefs.goal)}</span>` : ''}
             ${prefs.meals ? `<span class="tag tag-primary">${prefs.meals} comidas/día</span>` : ''}
             ${prefs.cookTime ? `<span class="tag tag-primary">${getCookTimeLabel(prefs.cookTime)}</span>` : ''}
-            ${Array.isArray(prefs.allergies) ? prefs.allergies.filter(a => a !== 'none').map(a => `<span class="tag" style="background:var(--error-light);color:var(--error)">🚫 ${a}</span>`).join('') : ''}
+            ${Array.isArray(prefs.allergies) ? prefs.allergies.filter(a => a !== 'none').map(a => `<span class="tag" style="background:var(--error-light);color:var(--error)">${a}</span>`).join('') : ''}
           </div>
         </div>
       ` : `
@@ -56,8 +62,14 @@ export function renderProfile(container) {
       `}
 
       <div class="profile-actions">
-        <button class="btn btn-outline" id="redoQuestionnaire">🔄 Repetir cuestionario</button>
-        <button class="btn btn-outline" id="logoutBtn" style="color:var(--error);border-color:var(--error)">Cerrar sesión</button>
+        <button class="btn btn-outline" id="redoQuestionnaire">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+          Repetir cuestionario
+        </button>
+        <button class="btn btn-outline" id="logoutBtn";margin-left:auto">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Cerrar sesión
+        </button>
       </div>
     </div>
   `;

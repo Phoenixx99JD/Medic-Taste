@@ -70,9 +70,17 @@
 }
 
 .sidebar-link .icon {
-  font-size: 1.2rem;
   width: 24px;
-  text-align: center;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-link .icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .sidebar-footer {

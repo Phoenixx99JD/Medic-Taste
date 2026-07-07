@@ -34,14 +34,14 @@ INSERT INTO ingredients (name, category, calories_per_100g, protein_per_100g, ca
 
 -- Recetas
 INSERT INTO recipes (name, photo_url, description, servings, prep_time_minutes, diet_tags) VALUES
-('Pollo con arroz', NULL, 'Pechuga de pollo salteada con arroz blanco y verduras', 4, 35, NULL),
-('Ensalada César', NULL, 'Ensalada clásica con pollo, lechuga, crutones y parmesano', 2, 20, NULL),
-('Pasta al pesto', NULL, 'Pasta con salsa pesto casera y parmesano', 3, 25, 'vegano'),
-('Tortilla de patatas', NULL, 'Tortilla española clásica con huevo y patata', 4, 30, NULL),
-('Batido de plátano', NULL, 'Batido cremoso de plátano con leche y miel', 1, 5, NULL),
-('Ensalada de aguacate', NULL, 'Ensalada fresca con aguacate, tomate y cebolla', 2, 10, 'vegano'),
-('Lentejas guisadas', NULL, 'Lentejas con verduras y especias', 4, 45, NULL),
-('Tostada de aguacate', NULL, 'Pan integral con aguacate, tomate y huevo', 1, 10, NULL);
+('Pollo con arroz', 'https://images.unsplash.com/photo-1724441980118-741eaf55b0f8?w=600&h=400&fit=crop', 'Pechuga de pollo salteada con arroz blanco y verduras', 4, 35, NULL),
+('Ensalada César', 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=600&h=400&fit=crop', 'Ensalada clásica con pollo, lechuga, crutones y parmesano', 2, 20, NULL),
+('Pasta al pesto', 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&h=400&fit=crop', 'Pasta con salsa pesto casera y parmesano', 3, 25, 'vegano'),
+('Tortilla de patatas', 'https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&h=400&fit=crop', 'Tortilla española clásica con huevo y patata', 4, 30, NULL),
+('Batido de plátano', 'https://images.unsplash.com/photo-1577805947697-89e18249d767?w=600&h=400&fit=crop', 'Batido cremoso de plátano con leche y miel', 1, 5, NULL),
+('Ensalada de aguacate', 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop', 'Ensalada fresca con aguacate, tomate y cebolla', 2, 10, 'vegano'),
+('Lentejas guisadas', 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&h=400&fit=crop', 'Lentejas con verduras y especias', 4, 45, NULL),
+('Tostada de aguacate', 'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600&h=400&fit=crop', 'Pan integral con aguacate, tomate y huevo', 1, 10, NULL);
 
 -- Receta 1: Pollo con arroz
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id, amount, unit) VALUES
