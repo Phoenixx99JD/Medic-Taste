@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS ingredients (
   id                INT AUTO_INCREMENT PRIMARY KEY,
   name              VARCHAR(255) NOT NULL,
   category          VARCHAR(100) DEFAULT NULL,
+  price_per_unit    DECIMAL(10,2) DEFAULT NULL COMMENT 'precio en COP por unidad de venta',
   calories_per_100g DECIMAL(8,2) DEFAULT NULL,
   protein_per_100g  DECIMAL(8,2) DEFAULT NULL,
   carbs_per_100g    DECIMAL(8,2) DEFAULT NULL,

@@ -1012,6 +1012,88 @@
   text-decoration: line-through;
 }
 
+.shopping-store-btn {
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 0.25rem 0.4rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+.shopping-store-btn:hover {
+  background: var(--bg-alt);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.shopping-item.checked .shopping-store-btn {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.shopping-store-panel {
+  display: none;
+  margin: 0 0 0.5rem 2.2rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--bg-alt);
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+.shopping-store-panel.open {
+  display: block;
+}
+.shopping-store-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0;
+  font-size: 0.82rem;
+}
+.shopping-store-row + .shopping-store-row {
+  border-top: 1px solid var(--border-light);
+}
+.shopping-store-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.shopping-store-name {
+  font-weight: 500;
+  min-width: 70px;
+}
+.shopping-store-price {
+  font-weight: 600;
+  color: var(--text);
+  min-width: 70px;
+  text-align: right;
+}
+.shopping-store-link {
+  margin-left: auto;
+  text-align: right;
+}
+.shopping-store-link a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+.shopping-store-link a:hover {
+  text-decoration: underline;
+}
+.shopping-store-physical {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-style: italic;
+}
+.shopping-store-empty {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-style: italic;
+  padding: 0.3rem 0;
+}
+
 /* ===========================
    Profile (Claude style)
    =========================== */

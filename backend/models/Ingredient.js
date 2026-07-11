@@ -27,17 +27,17 @@ const Ingredient = {
     return rows[0];
   },
 
-  async create({ name, category, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g }) {
+  async create({ name, category, price_per_unit, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g }) {
     const [result] = await pool.query(
-      `INSERT INTO ingredients (name, category, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [name, category, calories_per_100g || null, protein_per_100g || null, carbs_per_100g || null, fat_per_100g || null]
+      `INSERT INTO ingredients (name, category, price_per_unit, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [name, category, price_per_unit || null, calories_per_100g || null, protein_per_100g || null, carbs_per_100g || null, fat_per_100g || null]
     );
     return result.insertId;
   },
 
   async update(id, fields) {
-    const allowed = ['name', 'category', 'calories_per_100g', 'protein_per_100g', 'carbs_per_100g', 'fat_per_100g'];
+    const allowed = ['name', 'category', 'price_per_unit', 'calories_per_100g', 'protein_per_100g', 'carbs_per_100g', 'fat_per_100g'];
     const set = [];
     const params = [];
     for (const key of allowed) {

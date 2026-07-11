@@ -1,16 +1,22 @@
 import { get } from '../services/api.js';
 
-const ESTIMATED_PRICES = {
-  'Pechuga de pollo': 0.0085, 'Arroz blanco': 0.002, 'Tomate': 1.00,
-  'Lechuga': 0.00015, 'Cebolla': 0.0012, 'Aceite de oliva': 0.006,
-  'Sal': 0.0015, 'Pasta': 0.0018, 'Queso parmesano': 0.012,
-  'Huevo': 0.35, 'Leche': 0.0012, 'Harina de trigo': 0.0015,
-  'Ajo': 0.004, 'Aguacate': 1.50, 'Pan integral': 0.50,
-  'Atún en lata': 0.025, 'Lentejas': 0.003, 'Zanahoria': 0.001,
-  'Plátano': 0.40, 'Manzana': 0.60, 'Yogur natural': 0.01,
-  'Almendras': 0.015, 'Miel': 0.008, 'Pimiento rojo': 0.80, 'Calabacín': 0.90,
+const STORE_LABELS = {
+  exito: 'Éxito',
+  olimpica: 'Olímpica',
+  d1: 'D1',
+  ara: 'Ara',
 };
 
+const STORE_COLORS = {
+  exito: '#FF6B00',
+  olimpica: '#E31837',
+  d1: '#FFD700',
+  ara: '#00A651',
+};
+
+function formatCOP(value) {
+  return '$ ' + Math.round(value).toLocaleString('es-CO');
+}
 
 export async function renderShopping(container) {
   container.innerHTML = `
@@ -89,24 +95,44 @@ export async function renderShopping(container) {
         return;
       }
 
-      const grouped = {};
+      let grouped = {};
       allIngredients.forEach(ing => {
         const cat = ing.category || 'Otros';
         if (!grouped[cat]) grouped[cat] = [];
         const existing = grouped[cat].find(g => g.name === ing.name);
         if (existing) {
           existing.amount = (parseFloat(existing.amount) + parseFloat(ing.amount)).toFixed(1);
+          existing.pricePer = parseFloat(ing.price_per_unit) || 0;
         } else {
-          const pricePer = ESTIMATED_PRICES[ing.name] || 0.01;
           grouped[cat].push({
+            ingredient_id: ing.id,
             name: ing.name,
-            amount: ing.amount,
+            amount: parseFloat(ing.amount),
             unit: ing.unit,
-            pricePer,
-            priceTotal: (parseFloat(ing.amount) * pricePer),
+            pricePer: parseFloat(ing.price_per_unit) || 0,
+            store_prices: ing.store_prices || null,
           });
         }
       });
+
+      for (const cat of Object.keys(grouped)) {
+        for (const item of grouped[cat]) {
+          if (!item.store_prices) {
+            try {
+              const stores = await get(`/shopping-list/stores/${item.ingredient_id}`);
+              item.store_prices = stores;
+            } catch {
+              item.store_prices = [];
+            }
+          }
+          if (item.store_prices.length) {
+            const cheapest = item.store_prices.reduce((min, s) => (s.price < min.price ? s : min), item.store_prices[0]);
+            item.best_price = cheapest.price;
+          } else {
+            item.best_price = item.pricePer;
+          }
+        }
+      }
 
       const totalItems = allIngredients.length;
       const totalCategories = Object.keys(grouped).length;
@@ -117,18 +143,35 @@ export async function renderShopping(container) {
             <strong>${totalItems}</strong> ingredientes · <strong>${totalCategories}</strong> categorías
             <span class="shopping-summary-checked" id="checkedCount">0 marcados</span>
           </div>
-          <span class="shopping-summary-total">Total: <strong id="totalPrice">$0.00</strong></span>
+          <span class="shopping-summary-total">Total: <strong id="totalPrice">$0</strong></span>
         </div>
         <div class="shopping-categories">
           ${Object.entries(grouped).map(([cat, items]) => `
             <div class="shopping-category">
               <h3>${cat} <span class="shopping-category-count">${items.length}</span></h3>
               ${items.map(item => `
-                <div class="shopping-item" data-price="${item.priceTotal.toFixed(2)}">
-                  <input type="checkbox" id="shop-${cat}-${item.name.replace(/\s/g, '')}">
-                  <label for="shop-${cat}-${item.name.replace(/\s/g, '')}">${item.name}</label>
+                <div class="shopping-item" data-price="${item.best_price * item.amount}" data-id="${item.ingredient_id}">
+                  <input type="checkbox" id="shop-${item.ingredient_id}">
+                  <label for="shop-${item.ingredient_id}">${item.name}</label>
                   <span class="shopping-item-amount">${item.amount} ${item.unit}</span>
-                  <span class="shopping-item-price">$${item.priceTotal.toFixed(2)}</span>
+                  <span class="shopping-item-price">${formatCOP(item.best_price * item.amount)}</span>
+                  <button class="shopping-store-btn" data-id="${item.ingredient_id}" title="Ver dónde comprar">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                  </button>
+                </div>
+                <div class="shopping-store-panel" id="store-panel-${item.ingredient_id}">
+                  ${item.store_prices.length ? item.store_prices.map(sp => `
+                    <div class="shopping-store-row">
+                      <span class="shopping-store-dot" style="background:${STORE_COLORS[sp.store] || '#888'}"></span>
+                      <span class="shopping-store-name">${STORE_LABELS[sp.store] || sp.store}</span>
+                      <span class="shopping-store-price">${formatCOP(sp.price)}</span>
+                      <span class="shopping-store-link">
+                        ${sp.product_url
+                          ? `<a href="${sp.product_url}" target="_blank" rel="noopener">Ver producto</a>`
+                          : '<span class="shopping-store-physical">Disponible en tienda física</span>'}
+                      </span>
+                    </div>
+                  `).join('') : '<div class="shopping-store-empty">Sin precios registrados en tiendas</div>'}
                 </div>
               `).join('')}
             </div>
@@ -136,13 +179,25 @@ export async function renderShopping(container) {
         </div>
       `;
 
-      content.querySelectorAll('.shopping-item input').forEach(cb => {
+      content.querySelectorAll('.shopping-item input[type="checkbox"]').forEach(cb => {
         cb.addEventListener('change', updateTotals);
+      });
+
+      content.querySelectorAll('.shopping-store-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          const panel = document.getElementById(`store-panel-${id}`);
+          if (!panel) return;
+          const wasOpen = panel.classList.contains('open');
+          document.querySelectorAll('.shopping-store-panel.open').forEach(p => p.classList.remove('open'));
+          if (!wasOpen) panel.classList.add('open');
+        });
       });
 
       updateTotals();
 
-    } catch {
+    } catch (err) {
       content.innerHTML = `
         <div class="page-error">Error al generar la lista de compras.</div>
       `;
@@ -170,7 +225,7 @@ export async function renderShopping(container) {
         el.classList.remove('checked');
       }
     });
-    checkedEl.textContent = `${checked}/${total} marcados · $${checkedPrice.toFixed(2)}`;
-    totalEl.textContent = `$${totalPrice.toFixed(2)}`;
+    checkedEl.textContent = `${checked}/${total} marcados · ${formatCOP(checkedPrice)}`;
+    totalEl.textContent = formatCOP(totalPrice);
   }
 }

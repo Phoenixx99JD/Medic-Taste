@@ -7,5 +7,6 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/week', ctrl.getByWeek);
+router.get('/stores/:ingredientId', ctrl.getStorePrices);
 
 module.exports = router;
